@@ -1,22 +1,33 @@
 <?php
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\SalesController; 
-    
-Route::get('/', [HomeController::class, 'index']);
 
-Route::prefix('category')->group(function () {
-    Route::get('/food-beverage', [ProductController::class, 'showFoodBeverage']);
-    Route::get('/beauty-health', [ProductController::class, 'showBeautyHealth']);
-    Route::get('/home-care', [ProductController::class, 'showHomeCare']);
-    Route::get('/baby-kid', [ProductController::class, 'showBabyKid']);
+use App\Http\Controllers\LevelController;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', function(){
+    return  view('welcome');
 });
 
-Route::get('/user/{id}/name/{name}', [UserController::class, 'showProfile']);
+Route::get('/level', [LevelController::class, 'index']);
 
-Route::get('/sales', [SalesController::class, 'showPOS']);
+
+// use App\Http\Controllers\HomeController;
+// use App\Http\Controllers\ProductController;
+// use App\Http\Controllers\UserController;
+// use App\Http\Controllers\SalesController;
+    
+
+// Route::get('/', [HomeController::class, 'index']);
+
+// Route::prefix('category')->group(function () {
+//     Route::get('/food-beverage', [ProductController::class, 'showFoodBeverage']);
+//     Route::get('/beauty-health', [ProductController::class, 'showBeautyHealth']);
+//     Route::get('/home-care', [ProductController::class, 'showHomeCare']);
+//     Route::get('/baby-kid', [ProductController::class, 'showBabyKid']);
+// });
+
+// Route::get('/user/{id}/name/{name}', [UserController::class, 'showProfile']);
+
+// Route::get('/sales', [SalesController::class, 'showPOS']);
     // Route::middleware(['first', 'second'])->group(function () { Route::get('/', function () {
     //     // Uses first & second middleware...
     //     });
