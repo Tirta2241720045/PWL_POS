@@ -10,8 +10,8 @@ class UserController extends Controller
 {
     public function index()
     {
-        $user = UserModel::findOrFail(1); //ambil semua data dari tabel m_user
-        return view('user', ['data' => $user]);
+        $user = UserModel::where('level_id', 2)->count();
+        return view('user', ['jumlah_user' => $user]);
         //tambah data user dengan Eloquent Model
         // $data = [
         //     'level_id' => 2,
