@@ -1,23 +1,50 @@
 <?php
 
+use App\Http\Controllers\POSController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\KategoriController;
 use Illuminate\Support\Facades\Route;
+use Monolog\Level;
 
 Route::get('/', function(){
     return  view('welcome');
 });
 
+Route::resource('m_user',POSController::class);
 Route::get('/level', [LevelController::class, 'index']);
 Route::get('/kategori', [KategoriController::class, 'index']);
 Route::get('/user', [UserController::class,'index']);
 Route::get('/user/tambah', [UserController::class,'tambah']);
 Route::post('/user/tambah_simpan', [UserController::class,'tambah_simpan']);
+Route::post('/level/tambah_simpan', [LevelController::class,'tambah_simpan']);
 Route::get('/user/ubah/{id}', [UserController::class,'ubah']);
 Route::put('/user/ubah_simpan/{id}', [UserController::class,'ubah_simpan']);
 Route::get('/user/hapus/{id}', [UserController::class,'hapus']); 
+Route::get('/kategori/create', [KategoriController::class, 'create']);
+Route::post('/kategori', [KategoriController::class, 'store']);
+Route::put('/kategori/{id}', [KategoriController::class, 'update'])->name('update');
+Route::get('/kategori/{id}/edit', [KategoriController::class, 'edit'])->name('edit');
+Route::delete('/kategori/{id}', [KategoriController::class, 'destroy'])->name('destroy');
 
+Route::get('/formUser', function () {
+    return view('formUser');
+});
+
+Route::get('/formLevel', function () {
+    return view('formLevel');
+});
+Route::get('/hello', function () {
+    return view('hello', ['name' => 'Andi']);
+    });
+
+Route::get('/hello', function () {
+    return view('blog.hello', ['name' => 'Andi']);
+    });
+        
+Use Illuminate\Support\Facades\View;
+return View::make('hello', ['name' => 'Andi']);
+    
 // use App\Http\Controllers\HomeController;
 // use App\Http\Controllers\ProductController;
 // use App\Http\Controllers\UserController;
@@ -76,3 +103,7 @@ Route::get('/user/hapus/{id}', [UserController::class,'hapus']);
 //     return view('welcome');
 // });
 
+
+// Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
