@@ -265,7 +265,6 @@
         </div>
     </body>
 </html> --}}
-<!DOCTYPE html>
 {{-- <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
@@ -278,7 +277,7 @@
     <h2>Pemrograman Web Lanjut 2024</h2>
     <h3>Semangat Belajar Laravel 10</h3>
 </body> --}}
-@extends('adminlte::page')
+{{-- @extends('adminlte::page')
 @section('title', 'Dashboard') @section('content_header')
 <h1>Dashboard</h1> @stop
 
@@ -308,8 +307,32 @@
 
             @section('css')
                 {{-- Add here extra stylesheets --}}
-            {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}} @stop
-            @section('js')
+{{-- <link rel="stylesheet" href="/css/admin_custom.css"> @stop --}}
+{{-- @section('js')
             <script>
                 console.log("Hi, I'm using the Laravel-AdminLTE package!");
-            </script> @stop
+            </script> @stop --}}
+<!DOCTYPE html>
+@extends('layouts.template')
+@section('content')
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Halo, apakabar!!!</h3>
+            <div class="card-tools"></div>
+        </div>
+        <div class="card-body">
+            Selamat datang semua, ini adalah halaman utama dari aplikasi ini.
+        </div>
+    </div>
+@endsection
+{{-- <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                <i class="fas fa-times"></i>
+            </button> --}}
+<!-- /.card-body -->
+{{-- <div class="card-footer">
+    Footer
+</div> --}}
+<!-- /.card-footer-->
