@@ -25,11 +25,18 @@ class LoginController extends Controller
         $credentials = $request->only('username', 'password');
 
         //if auth failed
-        if (!$token = auth()->attempt($credentials)) {
+        if (!$token = auth()->guard('api')->attempt($credentials)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Unauthorized'
+                'message' => 'Username atau Password Anda salah'
             ], 401);
         }
+
+        //if auth success
+        return response()->json([
+            'success' => true,
+            'user' => auth()->guard('api')->user(),
+            'token' => $token
+        ], 200);
     }
 }
