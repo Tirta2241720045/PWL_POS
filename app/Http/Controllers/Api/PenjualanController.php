@@ -15,11 +15,6 @@ class PenjualanController extends Controller
     {
         $penjualan = PenjualanModel::with('user')->findOrFail($id);
         $barang = $penjualan->detail()->with('barang')->get();
-
-        foreach ($barang as $item) {
-            $item->barang->gambar_url = asset('images/'.$item->barang->gambar); // Misalkan gambar disimpan di public/images
-        }
-
         $penjualan->barang = $barang;
         return response()->json($penjualan, 200);
     }
