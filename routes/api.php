@@ -47,7 +47,6 @@ Route::post('/logout', App\Http\Controllers\Api\LogoutController::class)->name('
 
 Route::post('Register1', App\Http\Controllers\Api\RegisterController::class)->name('register1');
 
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
