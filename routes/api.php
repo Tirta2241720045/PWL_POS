@@ -7,6 +7,9 @@ use App\Http\Controllers\Api\LevelController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\KategoriController;
 use App\Http\Controllers\Api\BarangController;
+use App\Http\Controllers\Api\PenjualanController;
+
+Route::get('penjualan/{penjualan}', [PenjualanController::class, 'show']);
 
 Route::get('barang', [BarangController::class, 'index']);
 Route::post('barang', [BarangController::class, 'store']);
@@ -46,6 +49,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/logout', App\Http\Controllers\Api\LogoutController::class)->name('logout');
 
 Route::post('Register1', App\Http\Controllers\Api\RegisterController::class)->name('register1');
+
 
 /*
 |--------------------------------------------------------------------------
