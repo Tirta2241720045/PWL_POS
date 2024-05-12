@@ -32,6 +32,16 @@
                         <th>Password</th>
                         <td>********</td>
                     </tr>
+                    <tr>
+                        <th>Berkas</th>
+                        <td>
+                            @if ($user->image)
+                                <img src="{{ asset($user->image) }}" alt="uploaded_image">
+                            @else
+                                <p>Tidak ada gambar</p>
+                            @endif
+                        </td>
+                    </tr>
                 </table>
             @endempty
             <a href="{{ url('user') }}" class="btn btn-sm btn-default mt- 2">Kembali</a>
