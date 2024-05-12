@@ -14,6 +14,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\FileUploadController;
+use App\Http\Controllers\FileUploadRenameController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,12 @@ Route::get('/', function(){
 });
 Route::get('/file-upload', [FileUploadController::class, 'fileUpload']);
 Route::post('/file-upload', [FileUploadController::class, 'prosesFileUpload']);
+
+Route::get('/', function(){
+    return  view('welcome');
+});
+Route::get('/file-upload-rename', [FileUploadRenameController::class, 'fileUploadRename']);
+Route::post('/file-upload-rename', [FileUploadRenameController::class, 'prosesFileUploadRename']);
 
 Route::get('/', [WelcomeController::class, 'index']);
 
