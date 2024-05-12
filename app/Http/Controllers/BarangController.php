@@ -73,15 +73,22 @@ class BarangController extends Controller
             'barang_nama' => 'required|string|max:100',
             'kategori_id' => 'required|integer',
             'harga_beli' => 'required|integer',
-            'harga_jual' => 'required|integer'
+            'harga_jual' => 'required|integer',
+            'berkas' => 'required|file|image|max:5000', // tambahkan validasi untuk file
         ]);
+
+        // $namaFile = 'web-' . time() . '.' . $request->berkas->getClientOriginalName();
+        $namaFile = $request->barang_nama . '-' . time() . '.' . $request->berkas->getClientOriginalExtension();
+        $path = $request->berkas->storeAs('barang', $namaFile);
+        $path = ('barang/'.$namaFile);
 
         BarangModel::create([
             'barang_kode' => $request->barang_kode,
             'barang_nama' => $request->barang_nama,
             'kategori_id' => $request->kategori_id,
             'harga_beli' => $request->harga_beli,
-            'harga_jual' => $request->harga_jual
+            'harga_jual' => $request->harga_jual,
+            'image'       => $path,
         ]);
 
         return redirect('/barang')->with('success', 'Data barang berhasil disimpan');
@@ -126,21 +133,43 @@ class BarangController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'barang_kode' => 'required|string|min:3|unique:m_barang,barang_kode',
+            'barang_kode' => 'required|string|min:3|unique:m_barang,barang_kode,' . $id,
             'barang_nama' => 'required|string|max:100',
             'kategori_id' => 'required|integer',
             'harga_beli' => 'required|integer',
-            'harga_jual' => 'required|integer'
+            'harga_jual' => 'required|integer',
+            'berkas' => 'required|file|image|max:5000' // tambahkan validasi untuk file
         ]);
-
-        BarangModel::find($id)->update([
+    
+        // Dapatkan data barang yang akan diubah
+        $barang = BarangModel::find($id);
+    
+        // Perbarui path dalam database jika ada file baru yang diunggah
+        if ($request->hasFile('berkas')) {
+            $request->validate([
+                'berkas' => 'file|image|max:5000', // tambahkan validasi untuk file
+            ]);
+    
+            // Simpan file yang diunggah ke dalam storage atau direktori yang diinginkan
+            $namaFile = 'barang-' . time() . '.' . $request->file('berkas')->getClientOriginalName();
+            $path = $request->file('berkas')->storeAs('barang', $namaFile);
+            $path = 'barang/' . $request->barang_nama . '/' . $namaFile;
+    
+            // Perbarui path file ke dalam database
+            $barang->update([
+                'image' => $path,
+            ]);
+        }
+    
+        $barang->update([
             'barang_kode' => $request->barang_kode,
             'barang_nama' => $request->barang_nama,
             'kategori_id' => $request->kategori_id,
             'harga_beli' => $request->harga_beli,
             'harga_jual' => $request->harga_jual
+            
         ]);
-
+    
         return redirect('/barang')->with('success', 'Data barang berhasil diubah');
     }
 

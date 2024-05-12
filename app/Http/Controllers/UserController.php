@@ -74,57 +74,34 @@ class UserController extends Controller
         return view('user.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'activeMenu' => $activeMenu]);
     }
 
-    //menyimpan data user baru
-    // public function store(Request $request)
-    // {
-    //     $request->validate([
-    //         'username' => 'required|string|min:3|unique:m_user,username',
-    //         'nama' => 'required|string|max:100',
-    //         'password' => 'required|min:5',
-    //         'level_id' => 'required|integer',
-    //         'berkas' => 'required|file|image|max:5000', // tambahkan validasi untuk file
-    //     ]);
-    
-    //     // Simpan file yang diunggah ke dalam storage atau direktori yang diinginkan
-    //     $namaFile = 'web-' . time() . '.' . $request->berkas->getClientOriginalName();
-    //     $path = $request->berkas->store('user', $namaFile);
-    //     $path = 'user/' . $request->nama . '/' . $namaFile;
-    
-    //     // Simpan path file ke dalam kolom image di database
-    //     $user = UserModel::create([
-    //         'username' => $request->username,
-    //         'nama' => $request->nama,
-    //         'password' => bcrypt($request->password),
-    //         'level_id' => $request->level_id,
-    //         'image' => $path, // Simpan path file ke dalam kolom image
-    //     ]);
-    
-    //     return redirect('/user')->with('success', 'Data user berhasil disimpan');
-    // }
+    // menyimpan data user baru
     public function store(Request $request)
     {
         $request->validate([
-            'username'   => 'required|string|min:3|unique:m_user,username',
-            'nama'       => 'required|string|max:100',
-            'password'   => 'required|min:5',
-            'level_id'   => 'required|integer',
-            'image'      => 'required|file|image|max:1000',
+            'username' => 'required|string|min:3|unique:m_user,username',
+            'nama' => 'required|string|max:100',
+            'password' => 'required|min:5',
+            'level_id' => 'required|integer',
+            'berkas' => 'required|file|image|max:5000', // tambahkan validasi untuk file
         ]);
-        $namaFile = 'IMG' . time() . '-' . $request->image->getClientOriginalName();
-        $path = $request->image->storeAs('user', $namaFile);
-
-        UserModel::create([
-            'username'    => $request->username,
-            'nama'        => $request->nama,
-            'password'    => bcrypt($request->password),
-            'level_id'    => $request->level_id,
-            'image'       => $namaFile
+    
+        // Simpan file yang diunggah ke dalam storage atau direktori yang diinginkan
+        $namaFile = 'web-' . time() . '.' . $request->berkas->getClientOriginalName();
+        $path = $request->berkas->storeAs('user', $namaFile);
+        $path = 'user/' . $request->nama . '/' . $namaFile;
+    
+        // Simpan path file ke dalam kolom image di database
+        $user = UserModel::create([
+            'username' => $request->username,
+            'nama' => $request->nama,
+            'password' => bcrypt($request->password),
+            'level_id' => $request->level_id,
+            'image' => $path, // Simpan path file ke dalam kolom image
         ]);
-
+    
         return redirect('/user')->with('success', 'Data user berhasil disimpan');
     }
     
-
     //menampilkan detail user
     public function show(string $id)
     {
@@ -190,6 +167,7 @@ class UserController extends Controller
     
             // Simpan file yang diunggah ke dalam storage atau direktori yang diinginkan
             $namaFile = 'web-' . time() . '.' . $request->file('berkas')->getClientOriginalName();
+            $path = $request->file('berkas')->storeAs('user', $namaFile);
             $path = 'user/' . $request->nama . '/' . $namaFile;
     
             // Perbarui path file ke dalam database
