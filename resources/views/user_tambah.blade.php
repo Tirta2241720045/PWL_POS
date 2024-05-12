@@ -22,6 +22,7 @@
         <input type="number" name="level_id" placeholder="Masukan ID Level">
         <br><br>
         <input type="submit" class="btn btn-success" value="Simpan">
+
 </body>
 
 </html>

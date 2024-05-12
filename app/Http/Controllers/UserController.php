@@ -78,22 +78,29 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            // username harus diisi, berupa string, minimal 3 karakter, dan unik di tabel m_user kolom username
             'username' => 'required|string|min:3|unique:m_user,username',
-            'nama' => 'required|string|max:100',    //nama harus diisi, berupa string, dan maksimal 100 karakter
-            'password' => 'required|min:5',         //password harus diisi dan minimal 5 karakter
-            'level_id' => 'required|integer',       //level_id harus diisi dan berupa angka
+            'nama' => 'required|string|max:100',
+            'password' => 'required|min:5',
+            'level_id' => 'required|integer',
+            'berkas' => 'required|file|image|max:5000', // tambahkan validasi untuk file
         ]);
-
-        UserModel::create([
+    
+        // Simpan file yang diunggah ke dalam storage atau direktori yang diinginkan
+        $namaFile = 'web-' . time() . '.' . $request->berkas->getClientOriginalName();
+        $path = $request->berkas->storeAs('user', $namaFile);
+    
+        // Simpan path file ke dalam kolom image di database
+        $user = UserModel::create([
             'username' => $request->username,
             'nama' => $request->nama,
-            'password' => bcrypt($request->password), //password dienkripsi sebelum disimpan
+            'password' => bcrypt($request->password),
             'level_id' => $request->level_id,
+            'image' => $path, // Simpan path file ke dalam kolom image
         ]);
-
+    
         return redirect('/user')->with('success', 'Data user berhasil disimpan');
     }
+    
 
     //menampilkan detail user
     public function show(string $id)
