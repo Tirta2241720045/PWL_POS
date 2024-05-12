@@ -19,8 +19,7 @@
         <h2>File Upload</h2>
         <hr>
 
-        <form atribut enctype="multipart/form-data" action="{{ url('file-upload') }}" method="POST"
-            action="{{ url('file-upload') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ url('file-upload') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-3">
@@ -35,3 +34,5 @@
         </form>
     </div>
 </body>
+
+</html>
