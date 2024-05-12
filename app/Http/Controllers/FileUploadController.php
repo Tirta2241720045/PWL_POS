@@ -11,6 +11,10 @@ class FileUploadController extends Controller
     {
         return view('file-upload');
     }
+    public function fileUploadRename()
+    {
+        return view('file-upload-rename');
+    }
     public function prosesFileUpload(Request $request)
     {
         $request->validate([
@@ -46,5 +50,23 @@ class FileUploadController extends Controller
         // } else {
         //     echo "Tidak ada file yang diupload";
         // }
+    }
+    public function prosesFileUploadRename(Request $request)
+    {
+        $request->validate([
+            'berkas' => 'required|file|image|max:5000',
+            'nama_file' => 'required|string']);
+            // $extfile = $request->berkas->getClientOriginalName();
+            // $namaFile = 'web-'.time().".".$extfile;
+            $namaFile = $request->input('nama_file') . '-' . time() . '.' . $request->berkas->getClientOriginalExtension();
+
+            $path = $request->berkas->move('gambar', $namaFile);
+            $path =str_replace("\\","//", $path);
+            // echo "Variabel path berisi: $path <br>";
+
+            $pathBaru=asset('gambar/'.$namaFile);
+            echo "Gambar berhasil diupload ke <a href='$pathBaru'>$namaFile</a><br>";
+            echo "<br>";
+            echo "<img src='$pathBaru' alt='uploaded_image'>";
     }
 }

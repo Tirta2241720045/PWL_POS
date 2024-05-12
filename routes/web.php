@@ -32,12 +32,8 @@ Route::get('/', function(){
 });
 Route::get('/file-upload', [FileUploadController::class, 'fileUpload']);
 Route::post('/file-upload', [FileUploadController::class, 'prosesFileUpload']);
-
-Route::get('/', function(){
-    return  view('welcome');
-});
-Route::get('/file-upload-rename', [FileUploadRenameController::class, 'fileUploadRename']);
-Route::post('/file-upload-rename', [FileUploadRenameController::class, 'prosesFileUploadRename']);
+Route::get('/file-upload-rename', [FileUploadController::class, 'fileUploadRename']);
+Route::post('/file-upload-rename', [FileUploadController::class, 'prosesFileUploadRename']);
 
 Route::get('/', [WelcomeController::class, 'index']);
 
