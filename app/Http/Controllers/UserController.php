@@ -87,7 +87,7 @@ class UserController extends Controller
     
         // Simpan file yang diunggah ke dalam storage atau direktori yang diinginkan
         $namaFile = 'web-' . time() . '.' . $request->berkas->getClientOriginalName();
-        $path = $request->berkas->storeAs('user', $namaFile);
+        $path = 'user/' . $request->nama . '/' . $namaFile;
     
         // Simpan path file ke dalam kolom image di database
         $user = UserModel::create([
