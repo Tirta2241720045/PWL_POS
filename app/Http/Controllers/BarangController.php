@@ -173,50 +173,6 @@ class BarangController extends Controller
     
         return redirect('/barang')->with('success', 'Data barang berhasil diubah');
     }
-
-    // public function update(Request $request, string $id)
-    // {
-    //     $request->validate([
-    //         'barang_kode' => 'required|string|min:3|unique:m_barang,barang_kode,' . $id,
-    //         'barang_nama' => 'required|string|max:100',
-    //         'kategori_id' => 'required|integer',
-    //         'harga_beli' => 'required|integer',
-    //         'harga_jual' => 'required|integer',
-    //         'berkas' => 'required|file|image|max:5000' // tambahkan validasi untuk file
-    //     ]);
-    
-    //     // Dapatkan data barang yang akan diubah
-    //     $barang = BarangModel::find($id);
-    
-    //     // Perbarui path dalam database jika ada file baru yang diunggah
-    //     if ($request->hasFile('berkas')) {
-    //         $request->validate([
-    //             'berkas' => 'file|image|max:5000', // tambahkan validasi untuk file
-    //         ]);
-    
-    //         // Simpan file yang diunggah ke dalam storage atau direktori yang diinginkan
-    //         $namaFile = $request->barang_nama . time() . '.' . $request->file('berkas')->getClientOriginalName();
-    //         $path = $request->file('berkas')->storeAs('public/barang', $namaFile);
-    //         // $path = 'barang/' . $request->barang_nama . '/' . $namaFile;
-    
-    //         // Perbarui path file ke dalam database
-    //         $barang->update([
-    //             'image' => $namaFile,
-    //         ]);
-    //     }
-    
-    //     $barang->update([
-    //         'barang_kode' => $request->barang_kode,
-    //         'barang_nama' => $request->barang_nama,
-    //         'kategori_id' => $request->kategori_id,
-    //         'harga_beli' => $request->harga_beli,
-    //         'harga_jual' => $request->harga_jual
-            
-    //     ]);
-    
-    //     return redirect('/barang')->with('success', 'Data barang berhasil diubah');
-    // }
-
     public function destroy(string $id)
     {
         $check = BarangModel::find($id);
