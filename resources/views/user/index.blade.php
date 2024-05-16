@@ -38,6 +38,7 @@
                         <th>Username</th>
                         <th>Nama</th>
                         <th>Level Pengguna</th>
+                        <th>Image</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -78,6 +79,11 @@
                     searchable: true // searchable: true, jika ingin kolom ini bisa dicari
                 }, {
                     data: "level.level_nama",
+                    className: "",
+                    orderable: false, // orderable: true, jika ingin kolom ini bisa diurutkan
+                    searchable: false // searchable: true, jika ingin kolom ini bisa dicari
+                }, {
+                    data: "image",
                     className: "",
                     orderable: false, // orderable: true, jika ingin kolom ini bisa diurutkan
                     searchable: false // searchable: true, jika ingin kolom ini bisa dicari

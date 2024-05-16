@@ -40,6 +40,7 @@
                         <th>Kategori Barang</th>
                         <th>Harga Beli</th>
                         <th>Harga Jual</th>
+                        <th>Image</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -99,6 +100,19 @@
                         className: "",
                         orderable: true,
                         searchable: true
+                    },
+                    {
+                        data: "image",
+                        className: "",
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, row) {
+                            if (type === 'display') {
+                                return '<img src="' + data +
+                                    '" class="img-thumbnail" style="width: 100px; height: auto;">';
+                            }
+                            return data;
+                        }
                     },
                     {
                         data: "aksi",

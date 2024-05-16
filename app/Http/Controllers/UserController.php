@@ -37,24 +37,28 @@ class UserController extends Controller
     // Ambil data user dalam bentuk json untuk datatables 
     public function list(Request $request)
     {
-        $users = UserModel::select('user_id', 'username', 'nama', 'level_id')->with('level');
-
-        //Filter data user berdasarkan level_id
+        $users = UserModel::select('user_id', 'username', 'nama', 'level_id', 'image')->with('level');
+    
+        // Filter data user based on level_id
         if ($request->level_id) {
             $users->where('level_id', $request->level_id);
         }
-
+    
         return DataTables::of($users)
-            ->addIndexColumn() //menambahkan kolom index / no urut (default nama kolom: DT_RowIndex)
+            ->addIndexColumn() // Add index column (default column name: DT_RowIndex)
             ->addColumn('aksi', function ($user) {
                 $detailBtn = '<a href="' . url('/user/' . $user->user_id) . '" class="btn btn-primary" style="width: 40px; height: 40px; margin-right: 5px;"><i class="fas fa-info-circle"></i></a>';
                 $editBtn = '<a href="' . url('/user/' . $user->user_id . '/edit') . '" class="btn btn-warning" style="width: 40px; height: 40px; margin-right: 5px;"><i class="fas fa-edit"></i></a>';
                 $deleteBtn = '<form class="d-inline-block" method="POST" action="' . url('/user/' . $user->user_id) . '">' . csrf_field() . method_field('DELETE') . '<button type="submit" class="btn btn-danger" style="width: 40px; height: 40px;" onclick="return confirm(\'Apakah Anda Yakin Menghapus Data Ini ? \');"><i class="fas fa-trash-alt"></i></button></form>';
                 return $detailBtn . $editBtn . $deleteBtn;
             })
-            ->rawColumns(['aksi']) //memberitahu bahwa kolom aksi adalah html
+            ->editColumn('image', function($user) {
+                return '<img src="' . $user->image . '" height="50"/>';
+            })
+            ->rawColumns(['aksi', 'image']) // Notify that the 'aksi' and 'image' columns contain HTML
             ->make(true);
     }
+    
 
     //menampilkan halaman form tambah user
     public function create()
@@ -86,9 +90,8 @@ class UserController extends Controller
         ]);
     
         // Simpan file yang diunggah ke dalam storage atau direktori yang diinginkan
-        $namaFile = 'web-' . time() . '.' . $request->berkas->getClientOriginalName();
-        $path = $request->berkas->storeAs('user', $namaFile);
-        $path = 'user/' . $request->nama . '/' . $namaFile;
+        $namaFile = $request->nama . '-' . time() . '.' . $request->file('berkas')->getClientOriginalName();
+        $path = $request->berkas->storeAs('public/user', $namaFile);
     
         // Simpan path file ke dalam kolom image di database
         $user = UserModel::create([
@@ -96,7 +99,7 @@ class UserController extends Controller
             'nama' => $request->nama,
             'password' => bcrypt($request->password),
             'level_id' => $request->level_id,
-            'image' => $path, // Simpan path file ke dalam kolom image
+            'image' => $namaFile, // Simpan path file ke dalam kolom image
         ]);
     
         return redirect('/user')->with('success', 'Data user berhasil disimpan');
@@ -166,13 +169,12 @@ class UserController extends Controller
             ]);
     
             // Simpan file yang diunggah ke dalam storage atau direktori yang diinginkan
-            $namaFile = 'web-' . time() . '.' . $request->file('berkas')->getClientOriginalName();
-            $path = $request->file('berkas')->storeAs('user', $namaFile);
-            $path = 'user/' . $request->nama . '/' . $namaFile;
+            $namaFile = $request->nama . '-' . time() . '.' . $request->file('berkas')->getClientOriginalName();
+            $path = $request->file('berkas')->storeAs('public/user', $namaFile);
     
             // Perbarui path file ke dalam database
             $user->update([
-                'image' => $path,
+                'image' => $namaFile,
             ]);
         }
     
